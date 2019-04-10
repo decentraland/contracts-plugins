@@ -16,6 +16,7 @@ Contracts Plugins is a set of usefull classes to deploy Decentraland contracts f
   - [ERC721](#erc721)
   - [Marketplace](#marketplace)
   - [Bid](#bid)
+  - [Listing](#listing)
 
 ## Install
 
@@ -156,4 +157,34 @@ type Marketplaceptions = {
   erc721: Erc721 | null
   txParams: TxParams
 }
+```
+
+### Bid
+
+#### deploy
+
+The marketplace contract needs to be initialized with an erc20 token as the accepted token
+and an erc721 token as the legacyNFT (related to marketplace v1).
+This contracts can be passed as properties of the deploy options. If not they will instanceated and deployed.
+
+_options_
+
+```typescript
+type Marketplaceptions = {
+  mana: Mana | null
+  erc721: Erc721 | null
+  txParams: TxParams
+}
+```
+
+### Listing
+
+#### deploy
+
+The marketplace contract needs to be initialized with an erc20 token as the accepted token
+and an erc721 token as the legacyNFT (related to marketplace v1).
+This contracts can be passed as properties of the deploy options. If not they will instanceated and deployed.
+
+```
+
 ```

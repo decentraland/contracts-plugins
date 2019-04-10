@@ -1,4 +1,5 @@
-import { Marketplace, Bid, Erc721, Mana, TxParams } from '../'
+import { Marketplace, Bid, Erc721, Mana, TxParams, CreationParams } from '../'
+import { DeployOptions } from './types'
 
 export class Listing {
   accounts: string[]
@@ -9,12 +10,11 @@ export class Listing {
   marketplace: Marketplace
   bid: Bid
 
-  constructor({ accounts, artifacts }) {
-    this.artifacts = artifacts
-    this.accounts = accounts
+  constructor(params: CreationParams) {
+    Object.assign(this, params)
   }
 
-  async deploy(options: any) {
+  async deploy(options: DeployOptions) {
     const { mana, erc721, txParams } = options
 
     const params = {
