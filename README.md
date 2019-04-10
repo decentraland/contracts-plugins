@@ -28,7 +28,7 @@ To deploy your Decentraland fake contracts just import the contract you want to 
 _exchange.spec.ts_
 
 ```typescript
-import { Mana } from 'contracts-plugins'
+import { Mana, ADDRESS_INDEXES } from 'contracts-plugins'
 
 const BN = web3.utils.BN
 const expect = require('chai').use(require('bn-chai')(BN)).expect
@@ -41,7 +41,7 @@ describe('Exchange', function() {
 
   beforeEach(async function() {
     accounts = await web3.eth.getAccounts()
-    deployer = accounts[0]
+    deployer = accounts[ADDRESS_INDEXES.deployer]
 
     mana = new Mana({ accounts, artifacts })
     manaContract = await mana.deploy({

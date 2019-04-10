@@ -1,9 +1,4 @@
-import {
-  Marketplace,
-  ONE_ETH,
-  SIX_MONTHS_IN_SECONDS,
-  LISTING_PRICE
-} from '../src'
+import { Marketplace, ONE_ETH, ADDRESS_INDEXES, ORDERS } from '../src'
 
 const web3 = global['web3']
 const BN = web3.utils.BN
@@ -20,9 +15,9 @@ describe('Marketplace', function() {
 
   beforeEach(async function() {
     accounts = (await web3.eth.getAccounts()).slice(0, 3)
-    deployer = accounts[0]
-    user = accounts[1]
-    anotherUser = accounts[2]
+    deployer = accounts[ADDRESS_INDEXES.deployer]
+    user = accounts[ADDRESS_INDEXES.user]
+    anotherUser = accounts[ADDRESS_INDEXES.anotherUser]
 
     const creationParams = {
       from: deployer,
@@ -36,32 +31,48 @@ describe('Marketplace', function() {
   })
 
   it('should create orders', async function() {
+    const { one, two } = ORDERS
     const erc721 = marketplace.getLegacyNFTContract()
-    let order = await marketplaceContract.orderByAssetId(erc721.address, 1)
-    expect(order[1]).to.be.equal(user)
-    expect(order[3]).to.eq.BN(LISTING_PRICE)
 
-    order = await marketplaceContract.orderByAssetId(erc721.address, 2)
+    let order = await marketplaceContract.orderByAssetId(
+      erc721.address,
+      one.tokenId
+    )
+    expect(order[1]).to.be.equal(user)
+    expect(order[3]).to.eq.BN(one.price)
+
+    order = await marketplaceContract.orderByAssetId(
+      erc721.address,
+      two.tokenId
+    )
     expect(order[1]).to.be.equal(anotherUser)
-    expect(order[3]).to.eq.BN(LISTING_PRICE)
+    expect(order[3]).to.eq.BN(two.price)
   })
 
   it('should create more orders', async function() {
+    const { one } = ORDERS
     const erc721 = marketplace.getLegacyNFTContract()
-    let order = await marketplaceContract.orderByAssetId(erc721.address, 1)
-    expect(order[1]).to.be.equal(user)
-    expect(order[3]).to.eq.BN(LISTING_PRICE)
 
-    const endTime = Date.now() + SIX_MONTHS_IN_SECONDS
+    let order = await marketplaceContract.orderByAssetId(
+      erc721.address,
+      one.tokenId
+    )
+    expect(order[1]).to.be.equal(user)
+    expect(order[3]).to.eq.BN(one.price)
+
+    const endTime = Date.now() + one.duration
     await marketplace.createOrders(
       erc721.address,
-      ['1'],
+      [one.tokenId],
       ONE_ETH,
       endTime,
       user
     )
 
-    order = await marketplaceContract.orderByAssetId(erc721.address, 1)
+    order = await marketplaceContract.orderByAssetId(
+      erc721.address,
+      one.tokenId
+    )
     expect(order[1]).to.be.equal(user)
     expect(order[3]).to.eq.BN(ONE_ETH)
   })

@@ -1,10 +1,5 @@
-import {
-  Mana,
-  Erc721,
-  LISTING_PRICE,
-  SIX_MONTHS_IN_SECONDS,
-  TxParams
-} from '../'
+import { Mana, Erc721, BIDS, TxParams, CreationParams } from '../'
+import { DeployOptions } from './types'
 
 export class Bid {
   accounts: string[]
@@ -14,16 +9,17 @@ export class Bid {
   mana: Mana
   bidContract: any
 
-  constructor({ accounts, artifacts }) {
-    this.artifacts = artifacts
-    this.accounts = accounts
+  constructor(params: CreationParams) {
+    Object.assign(this, params)
   }
 
-  async deploy(options: any) {
+  async deploy(options: DeployOptions) {
     const { mana, erc721, txParams } = options
     const { Bid } = this.artifacts
 
     this.txParams = txParams
+
+    // Deploy Mana
     if (!mana) {
       this.mana = new Mana({
         artifacts: this.artifacts,
@@ -34,6 +30,7 @@ export class Bid {
       this.mana = mana
     }
 
+    // Deploy Erc721
     if (!erc721) {
       this.erc721 = new Erc721({
         artifacts: this.artifacts,
@@ -45,6 +42,8 @@ export class Bid {
     }
 
     const manaContract = this.getMANAContract()
+
+    // Deploy Bid
     this.bidContract = await Bid.new(
       manaContract.address,
       txParams.from,
@@ -62,22 +61,23 @@ export class Bid {
   }
 
   async createInitialBids() {
+    const { one, two } = BIDS
     const legacyNFTContract = this.getERC721Contract()
 
     return Promise.all([
       this.createBids(
         legacyNFTContract.address,
-        ['1'],
-        LISTING_PRICE,
-        SIX_MONTHS_IN_SECONDS,
-        this.accounts[9]
+        [one.tokenId],
+        one.price,
+        one.duration,
+        this.accounts[one.bidder]
       ),
       this.createBids(
         legacyNFTContract.address,
-        ['2'],
-        LISTING_PRICE,
-        SIX_MONTHS_IN_SECONDS,
-        this.accounts[10]
+        [two.tokenId],
+        two.price,
+        two.duration,
+        this.accounts[two.bidder]
       )
     ])
   }

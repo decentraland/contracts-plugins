@@ -1,4 +1,4 @@
-import { Erc721 } from '../src'
+import { Erc721, ADDRESS_INDEXES, ERC721_TOKENS } from '../src'
 
 const web3 = global['web3']
 const BN = web3.utils.BN
@@ -14,9 +14,9 @@ describe('ERC721', function() {
 
   beforeEach(async function() {
     accounts = await web3.eth.getAccounts()
-    deployer = accounts[0]
-    user = accounts[1]
-    anotherUser = accounts[2]
+    deployer = accounts[ADDRESS_INDEXES.deployer]
+    user = accounts[ADDRESS_INDEXES.user]
+    anotherUser = accounts[ADDRESS_INDEXES.anotherUser]
 
     erc721 = new Erc721({ accounts, artifacts: global })
     erc721Contract = await erc721.deploy({
@@ -29,17 +29,20 @@ describe('ERC721', function() {
   })
 
   it('should mint tokens', async function() {
-    let owner = await erc721Contract.ownerOf(1)
+    const { one, two } = ERC721_TOKENS
+
+    let owner = await erc721Contract.ownerOf(one.id)
     expect(owner).to.be.equal(user)
 
-    owner = await erc721Contract.ownerOf(2)
+    owner = await erc721Contract.ownerOf(two.id)
     expect(owner).to.be.equal(anotherUser)
   })
 
   it('should mint more tokens', async function() {
+    const { one } = ERC721_TOKENS
     await erc721.mintTokens(user, ['3', '4'])
 
-    let owner = await erc721Contract.ownerOf(1)
+    let owner = await erc721Contract.ownerOf(one.id)
     expect(owner).to.be.equal(user)
 
     owner = await erc721Contract.ownerOf(3)

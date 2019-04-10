@@ -1,4 +1,4 @@
-import { Bid, ONE_ETH, SIX_MONTHS_IN_SECONDS, LISTING_PRICE } from '../src'
+import { Bid, ONE_ETH, ADDRESS_INDEXES, BIDS } from '../src'
 
 const web3 = global['web3']
 const BN = web3.utils.BN
@@ -15,9 +15,10 @@ describe('Bid', function() {
 
   beforeEach(async function() {
     accounts = await web3.eth.getAccounts()
-    deployer = accounts[0]
-    bidder = accounts[9]
-    anotherBidder = accounts[10]
+
+    deployer = accounts[ADDRESS_INDEXES.deployer]
+    bidder = accounts[ADDRESS_INDEXES.bidder]
+    anotherBidder = accounts[ADDRESS_INDEXES.anotherBidder]
 
     const creationParams = {
       from: deployer,
@@ -31,31 +32,49 @@ describe('Bid', function() {
   })
 
   it('should create bids', async function() {
+    const { one, two } = BIDS
     const erc721 = bid.getERC721Contract()
-    let order = await bidContract.getBidByToken(erc721.address, 1, 0)
+    let order = await bidContract.getBidByToken(
+      erc721.address,
+      one.tokenId,
+      one.index
+    )
     expect(order[1]).to.be.equal(bidder)
-    expect(order[2]).to.eq.BN(LISTING_PRICE)
+    expect(order[2]).to.eq.BN(one.price)
 
-    order = await bidContract.getBidByToken(erc721.address, 2, 0)
+    order = await bidContract.getBidByToken(
+      erc721.address,
+      two.tokenId,
+      two.index
+    )
     expect(order[1]).to.be.equal(anotherBidder)
-    expect(order[2]).to.eq.BN(LISTING_PRICE)
+    expect(order[2]).to.eq.BN(two.price)
   })
 
   it('should create more bids', async function() {
+    const { one } = BIDS
     const erc721 = bid.getERC721Contract()
-    let order = await bidContract.getBidByToken(erc721.address, 1, 0)
+    let order = await bidContract.getBidByToken(
+      erc721.address,
+      one.tokenId,
+      one.index
+    )
     expect(order[1]).to.be.equal(bidder)
-    expect(order[2]).to.eq.BN(LISTING_PRICE)
+    expect(order[2]).to.eq.BN(one.price)
 
     await bid.createBids(
       erc721.address,
-      ['1'],
+      [one.tokenId],
       ONE_ETH,
-      SIX_MONTHS_IN_SECONDS,
+      one.duration,
       bidder
     )
 
-    order = await bidContract.getBidByToken(erc721.address, 1, 0)
+    order = await bidContract.getBidByToken(
+      erc721.address,
+      one.tokenId,
+      one.index
+    )
     expect(order[1]).to.be.equal(bidder)
     expect(order[2]).to.eq.BN(ONE_ETH)
   })

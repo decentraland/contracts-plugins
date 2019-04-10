@@ -2,7 +2,8 @@ import {
   Mana,
   INITIAL_VALUE,
   INCREASED_INITIAL_VALUE,
-  APPROVAL_VALUE
+  APPROVAL_VALUE,
+  ADDRESS_INDEXES
 } from '../src'
 
 const web3 = global['web3']
@@ -17,7 +18,7 @@ describe('MANA', function() {
 
   beforeEach(async function() {
     accounts = await web3.eth.getAccounts()
-    deployer = accounts[0]
+    deployer = accounts[ADDRESS_INDEXES.deployer]
 
     mana = new Mana({ accounts, artifacts: global })
     manaContract = await mana.deploy({

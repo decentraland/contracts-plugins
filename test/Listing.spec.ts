@@ -1,4 +1,4 @@
-import { Listing } from '../src'
+import { Listing, ADDRESS_INDEXES } from '../src'
 
 const web3 = global['web3']
 const BN = web3.utils.BN
@@ -12,7 +12,7 @@ describe('Listing', function() {
 
   beforeEach(async function() {
     accounts = await web3.eth.getAccounts()
-    deployer = accounts[0]
+    deployer = accounts[ADDRESS_INDEXES.deployer]
 
     const creationParams = {
       from: deployer,

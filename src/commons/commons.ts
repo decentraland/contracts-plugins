@@ -12,28 +12,58 @@ export const LISTING_PRICE = web3.utils.toWei('10', 'ether')
 // Times
 export const SIX_MONTHS_IN_SECONDS = 60 * 60 * 24 * 30 * 6
 
+// Addresses
+export const ADDRESS_INDEXES = {
+  deployer: 0,
+  user: 1,
+  anotherUser: 2,
+  operator: 3,
+  anotherOperator: 4,
+  updateOperator: 5,
+  anotherUpdateOperator: 6,
+  buyer: 7,
+  anotherBuyer: 8,
+  bidder: 9,
+  anotherBidder: 10,
+  hacker: 11
+}
+
 // ERC721 tokens
-export const TOKEN_IDS = {
-  one: { id: '1', owner: 'user' },
-  two: { id: '2', owner: 'anotherUser' }
+export const ERC721_TOKENS = {
+  one: { id: '1', owner: ADDRESS_INDEXES.user },
+  two: { id: '2', owner: ADDRESS_INDEXES.anotherUser }
 }
 
-// Marketplace orders
-export const MARKETPLACE_ORDERS = {
-  one: { id: '1', seller: 'user', price: LISTING_PRICE },
-  two: { id: '2', owner: 'anotherUser', price: LISTING_PRICE }
+// Orders
+export const ORDERS = {
+  one: {
+    tokenId: '1',
+    seller: ADDRESS_INDEXES.user,
+    price: LISTING_PRICE,
+    duration: SIX_MONTHS_IN_SECONDS
+  },
+  two: {
+    tokenId: '2',
+    seller: ADDRESS_INDEXES.anotherUser,
+    price: LISTING_PRICE,
+    duration: SIX_MONTHS_IN_SECONDS
+  }
 }
 
-// export const getCreationParams({accounts}) {
-//   if (!accounts) {
-//     throw new Error(
-//       'Accounts is undefined. Please add load-addresses tasks before this one'
-//     )
-//   }
-
-//   const params = {
-//     from: accounts.deployer,
-//     gas: 6e6,
-//     gasPrice: 21e9
-//   }
-// }
+// Bids
+export const BIDS = {
+  one: {
+    tokenId: '1',
+    bidder: ADDRESS_INDEXES.bidder,
+    price: LISTING_PRICE,
+    duration: SIX_MONTHS_IN_SECONDS,
+    index: 0
+  },
+  two: {
+    tokenId: '2',
+    bidder: ADDRESS_INDEXES.anotherBidder,
+    price: LISTING_PRICE,
+    duration: SIX_MONTHS_IN_SECONDS,
+    index: 0
+  }
+}

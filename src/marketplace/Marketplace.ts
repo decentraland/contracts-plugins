@@ -1,10 +1,5 @@
-import {
-  Mana,
-  Erc721,
-  LISTING_PRICE,
-  SIX_MONTHS_IN_SECONDS,
-  TxParams
-} from '../'
+import { Mana, Erc721, ORDERS, TxParams, CreationParams } from '../'
+import { DeployOptions } from './types'
 
 export class Marketplace {
   accounts: string[]
@@ -14,16 +9,17 @@ export class Marketplace {
   mana: Mana
   marketplaceContract: any
 
-  constructor({ accounts, artifacts }) {
-    this.artifacts = artifacts
-    this.accounts = accounts
+  constructor(params: CreationParams) {
+    Object.assign(this, params)
   }
 
-  async deploy(options: any) {
+  async deploy(options: DeployOptions) {
     const { mana, erc721, txParams } = options
     const { Marketplace } = this.artifacts
 
     this.txParams = txParams
+
+    // Deploy Mana
     if (!mana) {
       this.mana = new Mana({
         artifacts: this.artifacts,
@@ -34,6 +30,7 @@ export class Marketplace {
       this.mana = mana
     }
 
+    // Deploy Erc721
     if (!erc721) {
       this.legacyNFT = new Erc721({
         artifacts: this.artifacts,
@@ -44,6 +41,7 @@ export class Marketplace {
       this.legacyNFT = erc721
     }
 
+    // Deploy Marketplace
     this.marketplaceContract = await Marketplace.new(txParams)
 
     await this.authorize()
@@ -77,22 +75,23 @@ export class Marketplace {
   }
 
   async createInitialOrders() {
+    const { one, two } = ORDERS
     const legacyNFTContract = this.getLegacyNFTContract()
-    const endTime = Date.now() + SIX_MONTHS_IN_SECONDS
+
     return Promise.all([
       this.createOrders(
         legacyNFTContract.address,
-        ['1'],
-        LISTING_PRICE,
-        endTime,
-        this.accounts[1]
+        [one.tokenId],
+        one.price,
+        Date.now() + one.duration,
+        this.accounts[one.seller]
       ),
       this.createOrders(
         legacyNFTContract.address,
-        ['2'],
-        LISTING_PRICE,
-        endTime,
-        this.accounts[2]
+        [two.tokenId],
+        two.price,
+        Date.now() + two.duration,
+        this.accounts[two.seller]
       )
     ])
   }

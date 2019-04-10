@@ -1,4 +1,5 @@
-import { INITIAL_VALUE, APPROVAL_VALUE, TxParams } from '../'
+import { INITIAL_VALUE, APPROVAL_VALUE, TxParams, CreationParams } from '../'
+import { DeployOptions } from './types'
 
 export class Mana {
   accounts: string[]
@@ -7,12 +8,11 @@ export class Mana {
   manaContract: any
   fakeAccount = '0x0000000000000000000000000000000000000001' // OpCode
 
-  constructor({ accounts, artifacts }) {
-    this.artifacts = artifacts
-    this.accounts = accounts
+  constructor(params: CreationParams) {
+    Object.assign(this, params)
   }
 
-  async deploy(options) {
+  async deploy(options: DeployOptions) {
     const { txParams } = options
     const { MANA } = this.artifacts
 
@@ -23,12 +23,10 @@ export class Mana {
     return this.manaContract
   }
 
-  // Set 1000 ether to account balances
   async setInitialBalances() {
     await this.addBalances(this.accounts, INITIAL_VALUE)
   }
 
-  // Set 1000 ether to account balances
   async addBalances(accounts: string[], amount: string) {
     const { manaContract, txParams } = this
     await Promise.all(

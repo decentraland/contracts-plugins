@@ -1,4 +1,5 @@
-import { TxParams } from '../'
+import { TxParams, CreationParams, ERC721_TOKENS } from '../'
+import { DeployOptions } from './types'
 
 export class Erc721 {
   accounts: string[]
@@ -6,12 +7,11 @@ export class Erc721 {
   txParams: TxParams
   erc721Contract: any
 
-  constructor({ accounts, artifacts }) {
-    this.artifacts = artifacts
-    this.accounts = accounts
+  constructor(params: CreationParams) {
+    Object.assign(this, params)
   }
 
-  async deploy(options) {
+  async deploy(options: DeployOptions) {
     const { txParams } = options
     const { ERC721 } = this.artifacts
 
@@ -24,11 +24,11 @@ export class Erc721 {
   }
 
   async mintInitialTokens() {
-    const [, user, anotherUser] = this.accounts
+    const { one, two } = ERC721_TOKENS
 
     return Promise.all([
-      this.mintTokens(user, ['1']),
-      this.mintTokens(anotherUser, ['2'])
+      this.mintTokens(this.accounts[one.owner], [one.id]),
+      this.mintTokens(this.accounts[two.owner], [two.id])
     ])
   }
 
