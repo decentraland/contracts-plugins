@@ -4,7 +4,7 @@ import '@nomiclabs/buidler-truffle5'
 import { internalTask } from '@nomiclabs/buidler/config'
 import { TASK_TEST_SETUP_TEST_ENVIRONMENT } from '@nomiclabs/buidler/builtin-tasks/task-names'
 
-import * as erc20 from 'openzeppelin-solidity/build/contracts/ERC20Mintable.json'
+import * as erc20 from 'decentraland-mana/build/contracts/MANAToken.json'
 
 internalTask(TASK_TEST_SETUP_TEST_ENVIRONMENT, async (_, env, runSuper) => {
   await runSuper()

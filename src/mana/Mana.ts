@@ -39,7 +39,7 @@ export class Mana {
       accounts.map(async account => {
         const balance = await this.manaContract.balanceOf(account)
 
-        return this.manaContract.transfer(this.fakeAccount, balance, {
+        return this.manaContract.burn(balance, {
           from: account
         })
       })
