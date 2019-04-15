@@ -48,6 +48,16 @@ export class Listing {
     await this.bid.deploy({ mana: this.mana, erc721: this.erc721, txParams })
   }
 
+  async setFees(fee: number) {
+    const marketplaceContract = this.getMarketplaceContract()
+    const bidContract = this.getBidContract()
+
+    await Promise.all([
+      marketplaceContract.setOwnerCutPerMillion(fee, this.txParams),
+      bidContract.setOwnerCutPerMillion(fee, this.txParams)
+    ])
+  }
+
   getMANAContract() {
     return this.mana.getContract()
   }
@@ -62,5 +72,14 @@ export class Listing {
 
   getBidContract() {
     return this.bid.getContract()
+  }
+
+  getContracts() {
+    return {
+      manaContract: this.getMANAContract(),
+      erc721Contract: this.getERC721Contract(),
+      marketplaceContract: this.getMarketplaceContract(),
+      bidContract: this.getBidContract()
+    }
   }
 }

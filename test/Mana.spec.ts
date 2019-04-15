@@ -53,6 +53,15 @@ describe('MANA', function() {
     }
   })
 
+  it('should burn', async function() {
+    await mana.removeBalances(accounts)
+
+    for (let account of accounts) {
+      let balance = await manaContract.balanceOf(account)
+      expect(balance).to.eq.BN(0)
+    }
+  })
+
   it('should authorize', async function() {
     for (const account of accounts) {
       const allowance = await manaContract.allowance(
