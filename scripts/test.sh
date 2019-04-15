@@ -55,4 +55,4 @@ fi
 
 
 #npx buidler test
-node_modules/.bin/buidler test --show-stack-traces
+TS_NODE_FILES=true  node_modules/.bin/buidler test --show-stack-traces

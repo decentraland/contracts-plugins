@@ -1,3 +1,5 @@
+import env from '@nomiclabs/buidler'
+
 import {
   Mana,
   INITIAL_VALUE,
@@ -6,7 +8,7 @@ import {
   ADDRESS_INDEXES
 } from '../src'
 
-const web3 = global['web3']
+const web3 = env.web3
 const BN = web3.utils.BN
 const expect = require('chai').use(require('bn-chai')(BN)).expect
 
