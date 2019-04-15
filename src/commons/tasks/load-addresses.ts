@@ -1,6 +1,6 @@
 import '@nomiclabs/buidler-web3'
-import { extendEnvironment } from '@nomiclabs/buidler/config'
 import { BuidlerRuntimeEnvironment } from '@nomiclabs/buidler/types'
+import { extendEnvironment } from '@nomiclabs/buidler/config'
 
 extendEnvironment(async (env: BuidlerRuntimeEnvironment) => {
   const [
@@ -16,7 +16,7 @@ extendEnvironment(async (env: BuidlerRuntimeEnvironment) => {
     bidder,
     anotherBidder,
     hacker
-  ] = await env.web3.eth.getAccounts()
+  ] = env.web3.eth.getAccounts
 
   env['accounts'] = {
     deployer,

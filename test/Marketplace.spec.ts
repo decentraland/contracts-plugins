@@ -1,6 +1,8 @@
+import env from '@nomiclabs/buidler'
+
 import { Marketplace, ONE_ETH, ADDRESS_INDEXES, ORDERS } from '../src'
 
-const web3 = global['web3']
+const web3 = env.web3
 const BN = web3.utils.BN
 const expect = require('chai').use(require('bn-chai')(BN)).expect
 
