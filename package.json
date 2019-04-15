@@ -39,9 +39,6 @@
   },
   "homepage": "https://github.com/decentraland/contracts-plugins#readme",
   "devDependencies": {
-    "@nomiclabs/buidler": "^1.0.0-beta.4",
-    "@nomiclabs/buidler-truffle5": "^1.0.0-beta.4",
-    "@nomiclabs/buidler-web3": "^1.0.0-beta.4",
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.6",
     "@types/web3": "^1.0.18",
@@ -73,6 +70,9 @@
     "websocket": "^1.0.28"
   },
   "dependencies": {
+    "@nomiclabs/buidler": "^1.0.0-beta.4",
+    "@nomiclabs/buidler-truffle5": "^1.0.0-beta.4",
+    "@nomiclabs/buidler-web3": "^1.0.0-beta.4",
     "ts-node": "^8.0.3",
     "typescript": "^3.4.2"
   },
