@@ -1,6 +1,7 @@
-import '@nomiclabs/buidler-web3'
 import { BuidlerRuntimeEnvironment } from '@nomiclabs/buidler/types'
-import { extendEnvironment } from '@nomiclabs/buidler/config'
+import { extendEnvironment, usePlugin } from '@nomiclabs/buidler/config'
+
+usePlugin('@nomiclabs/buidler-web3')
 
 extendEnvironment(async (env: BuidlerRuntimeEnvironment) => {
   const [
