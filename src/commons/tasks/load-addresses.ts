@@ -1,9 +1,9 @@
-import { BuidlerRuntimeEnvironment } from '@nomiclabs/buidler/types'
-import { extendEnvironment, usePlugin } from '@nomiclabs/buidler/config'
+import { HardhatRuntimeEnvironment } from 'hardhat/types'
+import { extendEnvironment } from 'hardhat/config'
 
-usePlugin('@nomiclabs/buidler-web3')
+require('@nomiclabs/hardhat-web3')
 
-extendEnvironment(async (env: BuidlerRuntimeEnvironment) => {
+extendEnvironment(async (env: HardhatRuntimeEnvironment) => {
   const [
     deployer,
     user,
@@ -17,7 +17,7 @@ extendEnvironment(async (env: BuidlerRuntimeEnvironment) => {
     bidder,
     anotherBidder,
     hacker
-  ] = env.web3.eth.getAccounts
+  ] = await env['web3'].eth.getAccounts()
 
   env['accounts'] = {
     deployer,
@@ -33,4 +33,6 @@ extendEnvironment(async (env: BuidlerRuntimeEnvironment) => {
     anotherBidder,
     hacker
   }
+
+  return env
 })

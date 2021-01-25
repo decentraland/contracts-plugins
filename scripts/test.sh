@@ -54,5 +54,5 @@ else
 fi
 
 
-#npx buidler test
-TS_NODE_FILES=true  node_modules/.bin/buidler test --show-stack-traces
+#npx hardhat test
+TS_NODE_FILES=true  node_modules/.bin/hardhat test --show-stack-traces
