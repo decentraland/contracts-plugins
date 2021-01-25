@@ -1,12 +1,12 @@
-import env from '@nomiclabs/buidler'
+import env from 'hardhat'
 
 import { Erc721, ADDRESS_INDEXES, ERC721_TOKENS } from '../src'
 
-const web3 = env.web3
+const web3 = env['web3']
 const BN = web3.utils.BN
 const expect = require('chai').use(require('bn-chai')(BN)).expect
 
-describe('ERC721', function() {
+describe('ERC721', function () {
   let accounts
   let deployer
   let user
@@ -14,13 +14,13 @@ describe('ERC721', function() {
   let erc721: Erc721
   let erc721Contract
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     accounts = await web3.eth.getAccounts()
     deployer = accounts[ADDRESS_INDEXES.deployer]
     user = accounts[ADDRESS_INDEXES.user]
     anotherUser = accounts[ADDRESS_INDEXES.anotherUser]
 
-    erc721 = new Erc721({ accounts, artifacts: global })
+    erc721 = new Erc721({ accounts, artifacts: env.artifacts })
     erc721Contract = await erc721.deploy({
       txParams: {
         from: deployer,
@@ -30,7 +30,7 @@ describe('ERC721', function() {
     })
   })
 
-  it('should mint tokens', async function() {
+  it('should mint tokens', async function () {
     const { one, two } = ERC721_TOKENS
 
     let owner = await erc721Contract.ownerOf(one.id)
@@ -40,7 +40,7 @@ describe('ERC721', function() {
     expect(owner).to.be.equal(anotherUser)
   })
 
-  it('should mint more tokens', async function() {
+  it('should mint more tokens', async function () {
     const { one } = ERC721_TOKENS
     await erc721.mintTokens(user, ['3', '4'])
 
@@ -54,7 +54,7 @@ describe('ERC721', function() {
     expect(owner).to.be.equal(user)
   })
 
-  it('should authorize', async function() {
+  it('should authorize', async function () {
     for (const account of accounts) {
       const isApproved = await erc721Contract.isApprovedForAll(
         account,

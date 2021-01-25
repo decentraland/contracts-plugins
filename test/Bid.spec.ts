@@ -1,12 +1,12 @@
-import env from '@nomiclabs/buidler'
+import env from 'hardhat'
 
 import { Bid, ONE_ETH, ADDRESS_INDEXES, BIDS } from '../src'
 
-const web3 = env.web3
+const web3 = env['web3']
 const BN = web3.utils.BN
 const expect = require('chai').use(require('bn-chai')(BN)).expect
 
-describe('Bid', function() {
+describe('Bid', function () {
   this.timeout(10000)
   let accounts
   let deployer
@@ -15,7 +15,7 @@ describe('Bid', function() {
   let bid: Bid
   let bidContract
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     accounts = await web3.eth.getAccounts()
 
     deployer = accounts[ADDRESS_INDEXES.deployer]
@@ -28,12 +28,12 @@ describe('Bid', function() {
       gasPrice: 21e9
     }
 
-    bid = new Bid({ accounts, artifacts: global }) // should be artifacts
+    bid = new Bid({ accounts, artifacts: env.artifacts }) // should be artifacts
 
     bidContract = await bid.deploy({ txParams: creationParams })
   })
 
-  it('should create bids', async function() {
+  it('should create bids', async function () {
     const { one, two } = BIDS
     const erc721 = bid.getERC721Contract()
     let order = await bidContract.getBidByToken(
@@ -53,7 +53,7 @@ describe('Bid', function() {
     expect(order[2]).to.eq.BN(two.price)
   })
 
-  it('should create more bids', async function() {
+  it('should create more bids', async function () {
     const { one } = BIDS
     const erc721 = bid.getERC721Contract()
     let order = await bidContract.getBidByToken(
