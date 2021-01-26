@@ -2,7 +2,7 @@ import env from 'hardhat'
 
 import { Erc721, ADDRESS_INDEXES, ERC721_TOKENS } from '../src'
 
-const web3 = env['web3']
+const web3 = env['web3'] as any
 const BN = web3.utils.BN
 const expect = require('chai').use(require('bn-chai')(BN)).expect
 

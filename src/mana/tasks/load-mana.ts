@@ -4,8 +4,10 @@ import { TASK_TEST_SETUP_TEST_ENVIRONMENT } from 'hardhat/builtin-tasks/task-nam
 
 import * as erc20 from 'decentraland-mana/build/contracts/MANAToken.json'
 
-require('@nomiclabs/hardhat-web3')
-require('@nomiclabs/hardhat-truffle5')
+import '@nomiclabs/hardhat-web3'
+
+import '@nomiclabs/hardhat-truffle5'
+
 
 internalTask(TASK_TEST_SETUP_TEST_ENVIRONMENT, async (_, env, runSuper) => {
   await runSuper()

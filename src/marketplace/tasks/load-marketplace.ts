@@ -4,7 +4,8 @@ import { TASK_TEST_SETUP_TEST_ENVIRONMENT } from 'hardhat/builtin-tasks/task-nam
 
 import * as marketplace from 'marketplace-contracts/build/contracts/Marketplace.json'
 
-require('@nomiclabs/hardhat-truffle5')
+import '@nomiclabs/hardhat-truffle5'
+
 
 internalTask(TASK_TEST_SETUP_TEST_ENVIRONMENT, async (_, env, runSuper) => {
   await runSuper()

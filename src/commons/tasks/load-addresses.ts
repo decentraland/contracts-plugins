@@ -1,7 +1,7 @@
 import { HardhatRuntimeEnvironment } from 'hardhat/types'
 import { extendEnvironment } from 'hardhat/config'
 
-require('@nomiclabs/hardhat-web3')
+import '@nomiclabs/hardhat-web3'
 
 extendEnvironment(async (env: HardhatRuntimeEnvironment) => {
   const [
