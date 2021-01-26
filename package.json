@@ -2,8 +2,8 @@
   "name": "decentraland-contract-plugins",
   "version": "0.0.0-semantic-release",
   "description": "Decentraland Contracts Plugins",
-  "main": "dist/index.js",
-  "typings": "./dist/src/index.d.ts",
+  "main": "/dist/src/index.js",
+  "typings": "/dist/src/index.d.ts",
   "scripts": {
     "build": "tsc --project tsconfig-build.json",
     "test": "scripts/test.sh",
