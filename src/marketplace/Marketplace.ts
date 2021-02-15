@@ -43,10 +43,10 @@ export class Marketplace {
 
     // Deploy Marketplace
     const manaContract = this.getMANAContract()
-    const legacyNFTContract = this.getLegacyNFTContract()
 
-    this.marketplaceContract = await Marketplace.new(manaContract.address,
-      legacyNFTContract.address,
+    this.marketplaceContract = await Marketplace.new(
+      manaContract.address,
+      10000,
       this.txParams.from,
       this.txParams)
 
