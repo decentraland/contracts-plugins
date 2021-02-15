@@ -42,27 +42,18 @@ export class Marketplace {
     }
 
     // Deploy Marketplace
-    this.marketplaceContract = await Marketplace.new(txParams)
-
-    await this.authorize()
-    await this.initialize()
-    await this.createInitialOrders()
-
-    return this.marketplaceContract
-  }
-
-  async initialize() {
     const manaContract = this.getMANAContract()
     const legacyNFTContract = this.getLegacyNFTContract()
 
-    await this.marketplaceContract.methods[
-      'initialize(address,address,address)'
-    ](
-      manaContract.address,
+    this.marketplaceContract = await Marketplace.new(manaContract.address,
       legacyNFTContract.address,
       this.txParams.from,
-      this.txParams
-    )
+      this.txParams)
+
+    await this.authorize()
+    await this.createInitialOrders()
+
+    return this.marketplaceContract
   }
 
   async authorize() {
